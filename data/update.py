@@ -3,7 +3,7 @@ import requests
 import time
 
 # Assurez-vous de remplacer 'your_personal_access_token' par votre token d'accès personnel GitHub
-github_token = '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'
+github_token = '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'
 
 
 def check_for_updates(github_repo):
