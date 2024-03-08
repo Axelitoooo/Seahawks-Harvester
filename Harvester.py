@@ -28,17 +28,13 @@ def check_for_updates(github_repo):
 
 
 def pull_changes():
-    # Stasher les changements dans le dossier data pour les ignorer lors du pull
-    subprocess.run(["git", "stash", "push", "data"], check=True)
-    # Mettre à jour le reste de l'application
+    subprocess.run(["git", "stash", "push", "data"], check=True)  # Ignore le.data
     subprocess.run(["git", "pull"], check=True)
-    # Pop les changements du stash pour restaurer les données dans data
     subprocess.run(["git", "stash", "pop"], check=True)
 
 
 def update_application():
     github_repo = "Axelitoooo/Seahawks-Harvester"
-    last_sha = None
     current_sha = check_for_updates(github_repo)
     if current_sha and current_sha != last_sha:
         if messagebox.askyesno("Mise à jour disponible",
