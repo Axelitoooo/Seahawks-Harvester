@@ -1,9 +1,50 @@
 import json
 import os
 from tkinter import Tk, Button, Text, messagebox
-from datetime import datetime
 import nmap
 import threading
+import subprocess
+import requests
+from datetime import datetime
+
+# Lire le token d'accès depuis une variable d'environnement
+github_token = os.getenv('GITHUB_TOKEN')
+
+# Définition de last_sha au niveau global
+last_sha = None
+
+
+def check_for_updates(github_repo):
+    api_url = f"https://api.github.com/repos/{github_repo}/commits?per_page=1"
+    headers = {'Authorization': f'token {github_token}'}
+    response = requests.get(api_url, headers=headers)
+    if response.status_code == 200:
+        commits = response.json()
+        if commits and isinstance(commits, list) and len(commits) > 0:
+            last_commit_sha = commits[0]['sha']
+            if last_commit_sha != last_sha:
+                return last_commit_sha
+    return None
+
+
+def pull_changes():
+    # Stasher les changements dans le dossier data pour les ignorer lors du pull
+    subprocess.run(["git", "stash", "push", "data"], check=True)
+    # Mettre à jour le reste de l'application
+    subprocess.run(["git", "pull"], check=True)
+    # Pop les changements du stash pour restaurer les données dans data
+    subprocess.run(["git", "stash", "pop"], check=True)
+
+
+def update_application():
+    github_repo = "Axelitoooo/Seahawks-Harvester"
+    last_sha = None
+    current_sha = check_for_updates(github_repo)
+    if current_sha and current_sha != last_sha:
+        if messagebox.askyesno("Mise à jour disponible",
+                               "Des modifications ont été détectées. Voulez-vous mettre à jour ?"):
+            pull_changes()
+            messagebox.showinfo("Mise à jour", "L'application a été mise à jour.")
 
 
 def scan_network():
@@ -21,7 +62,6 @@ def scan_network():
 
 
 def save_results(hosts, automated=False):
-    # Sort hosts by IP address
     sorted_hosts = sorted(hosts, key=lambda x: x[0])
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
     filename_prefix = "scan_automated" if automated else "scan"
@@ -31,7 +71,7 @@ def save_results(hosts, automated=False):
     file_path = os.path.join(data_folder, f"{filename_prefix}_{timestamp}.json")
     with open(file_path, 'w') as file:
         json.dump(sorted_hosts, file, indent=4)
-    if 'display' in globals():
+    if not automated:
         messagebox.showinfo("Sauvegarde réussie",
                             f"Les résultats du scan ont été sauvegardés en JSON sous {file_path}.")
 
@@ -57,11 +97,10 @@ app.geometry("400x300")
 display = Text(app, height=15)
 display.pack()
 
-scan_btn = Button(app, text="Scan Network",
-                  command=lambda: threading.Thread(target=lambda: launch_scan_and_save(automated=False)).start())
+scan_btn = Button(app, text="Scan Network", command=lambda: threading.Thread(target=launch_scan_and_save).start())
 scan_btn.pack()
 
-save_btn = Button(app, text="Sauvegarder les Résultats", state='disabled')
-save_btn.pack()
+update_btn = Button(app, text="Vérifier et appliquer les mises à jour", command=update_application)
+update_btn.pack()
 
 app.mainloop()
