@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title>Résultats du Scan Réseau</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Résultats du Scan Réseau</h1>
+        <form action="" method="post">
+            <label>
+                <select name="selected_file">
+                    {% for file in files %}
+                    <option value="{{ file }}">{{ file }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <input type="submit" value="Voir les résultats">
+        </form>
+        <div class="results">
+            {% if results %}
+                {% for host in results %}
+                <p><i class="fas fa-network-wired"></i> {{ host[0] }} ({{ host[1] }}) {{ host[2] }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+    <script>
+        function checkForUpdates() {
+            fetch('/check-update')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.update) {
+                        location.reload();
+                    }
+                });
+        }
+        setInterval(checkForUpdates, 10000);
+
+
+
+// Vérifie la préférence de thème stockée lors du chargement de la page
+document.addEventListener('DOMContentLoaded', () => {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+});
+
+    </script>
+</body>
+</html>

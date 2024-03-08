@@ -1,0 +1,89 @@
+/* Définitions globales et styles de base pour le thème sombre */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Fond sombre */
+    color: #e0e0e0; /* Texte clair */
+    transition: background-color 0.3s;
+}
+
+/* Styles pour les éléments interactifs et le texte */
+.text, h1 {
+    color: #e0e0e0; /* Texte clair pour thème sombre */
+}
+
+a {
+    color: #bb86fc; /* Couleur des liens pour thème sombre */
+}
+
+/* Styles pour les éléments de formulaire et les boutons */
+select, input[type=submit], .button {
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type=submit]:hover, input[type=submit]:focus, .button:hover {
+    background-color: #555; /* Teinte plus sombre au survol */
+    color: white;
+}
+
+/* Styles pour les tableaux */
+.table-style {
+    border-collapse: collapse;
+    width: 100%;
+    color: #e0e0e0; /* Texte clair pour thème sombre */
+}
+
+.table-style th, .table-style td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+}
+
+/* Amélioration de la lisibilité et responsivité */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+}
+
+.text {
+    font-size: 16px;
+    background-color: #121212; /* Fond sombre pour lisibilité */
+}
+
+/* Styles spécifiques pour la page de résultats */
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: #333; /* Fond sombre pour le conteneur */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.results p {
+    background-color: #333; /* Fond sombre pour les paragraphes */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.results p:hover {
+    background-color: #555; /* Teinte plus sombre au survol */
+}
+
+/* Styles pour le bouton de changement de thème */
+.toggle-theme {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
