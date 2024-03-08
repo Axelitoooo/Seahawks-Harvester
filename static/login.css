@@ -1,53 +1,41 @@
-/* Style de base pour la mise en page */
 body {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-}
-
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    color: #333;
-    text-align: center;
+    color: #ffffff; /* Brighter text for headings */
 }
 
-/* Style pour les formulaires */
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    background-color: #333333; /* Darker background for the form */
+    padding: 20px;
+    border-radius: 5px;
 }
 
 label {
-    font-weight: bold;
+    color: #b0b0b0; /* Gray text for labels */
 }
 
 input[type="text"],
 input[type="password"] {
+    background-color: #222222; /* Darker input fields */
+    color: #e0e0e0; /* Light text in input fields */
+    border: none;
     padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
     border-radius: 5px;
 }
 
 button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
+    background-color: #0a84ff; /* Blue button */
+    color: #ffffff;
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #0060df; /* Darker blue on hover */
 }
-
