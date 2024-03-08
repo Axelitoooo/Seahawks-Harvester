@@ -1,10 +1,14 @@
+import os
 import subprocess
 import requests
 import time
 
-# Assurez-vous de remplacer 'your_personal_access_token' par votre token d'accès personnel GitHub
-github_token = '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'
+# Lire le token d'accès depuis une variable d'environnement
+github_token = os.getenv('GITHUB_TOKEN')
 
+if not github_token:
+    print("Erreur: Le token GitHub n'a pas été trouvé dans les variables d'environnement.")
+    exit(1)
 
 def check_for_updates(github_repo):
     api_url = f"https://api.github.com/repos/{github_repo}/commits?per_page=1"
@@ -23,10 +27,8 @@ def check_for_updates(github_repo):
         print(f"Erreur lors de la récupération des commits. Statut HTTP: {response.status_code}")
     return None
 
-
 def pull_changes():
     subprocess.run(["git", "pull"], check=True)
-
 
 def main():
     github_repo = "Axelitoooo/Seahawks-Harvester"
@@ -48,8 +50,7 @@ def main():
         else:
             print("Aucune mise à jour disponible ou erreur lors de la vérification des mises à jour.")
 
-        time.sleep(60)  # Vérifier les mises à jour toutes les 10 minutes
-
+        time.sleep(600)  # Vérifier les mises à jour toutes les 10 minutes
 
 if __name__ == "__main__":
     main()
