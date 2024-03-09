@@ -1,11 +1,18 @@
 import json
 import os
-from flask import Flask, jsonify, render_template, request, redirect, url_for
 from functools import wraps
+
+from flask import Flask, redirect, url_for
+from flask import jsonify, render_template, request
 
 app = Flask(__name__)
 # Utilisateurs autorisés (vous pouvez remplacer cela par une base de données utilisateur)
 AUTHORIZED_USERS = {'sadish': 'sadish1'}
+
+
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
 
 
 def login_required(f):
@@ -37,7 +44,7 @@ def login():
 @app.route('/results', methods=['GET', 'POST'])
 @login_required
 def results():
-    data_folder = os.path.join(os.path.dirname(__file__), 'data')  # Importation correcte de 'os'
+    data_folder = os.path.join(os.path.dirname(__file__), 'data')  # Chemin 'os'
     if not os.path.exists(data_folder):
         os.makedirs(data_folder)
     files = [f for f in os.listdir(data_folder) if f.endswith('.json')]
